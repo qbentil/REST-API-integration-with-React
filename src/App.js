@@ -53,6 +53,10 @@ class App extends React.Component{
       return (
         <div>
           <button onClick={this.addTodo}>Add TODO</button>
+
+          <ul>
+            {this.state.todos.map( todo => <Todo todo = {todo} />)}
+          </ul>
         </div>
       );
     }
