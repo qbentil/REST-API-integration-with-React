@@ -1,10 +1,8 @@
-/* eslint-disable no-lone-blocks */
-/*global addTodo, */
-/*eslint no-undef: "error"*/
 import './App.css'
 
 import React from 'react'
-import {render} from 'react-dom'
+
+// import {render} from 'react-dom'
 
 let id = 0;
 
@@ -17,7 +15,6 @@ const Todo = props => {
 }
 
 class App extends React.Component{
-  constructor() {
     constructor()
     {
       super();
@@ -38,20 +35,19 @@ class App extends React.Component{
     }
 
     // remove TODO
-    // eslint-disable-next-line no-undef
-    // removeTodo(id){
-    //   this.setState({
-    //     todos: this.state.todos.map(todo => {
-    //       if (todo.id !== id)
-    //         return todo;
-    //       return {
-    //         id: todo.id,
-    //         text: todo.text,
-    //         checked: !todo.checked,
-    //       };
-    //     })
-    //   });
-    // }
+    removeTodo(id){
+      this.setState({
+        todos: this.state.todos.map(todo => {
+          if (todo.id !== id)
+            return todo;
+          return {
+            id: todo.id,
+            text: todo.text,
+            checked: !todo.checked,
+          };
+        })
+      });
+    }
     render()
     {
       return (
@@ -60,7 +56,6 @@ class App extends React.Component{
         </div>
       );
     }
-  }
 }
 
 export default App;
