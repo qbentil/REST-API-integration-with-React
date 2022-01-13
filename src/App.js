@@ -58,6 +58,8 @@ class App extends React.Component{
     {
       return (
         <div>
+          <div>TODO Count: {this.state.todos.length}</div>
+          <div>Unchecked TODO Count: {this.state.todos.filter(todo => !todo.checked).length}</div>
           <button onClick={() => this.addTodo()}>Add TODO</button>
           <ul>
             {this.state.todos.map( todo => (
