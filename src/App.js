@@ -6,13 +6,13 @@ import React from 'react'
 
 let id = 0;
 
-const Todo = props => {
+const Todo = props => (
   <li>
     <input type="checkbox" />
-    <button  title = "Delete" onClick = { props.onDelete}>Delete</button>
     <span>{props.todo.text}</span>
+    <button  title = "Delete" onClick = { props.onDelete}>Delete</button>
   </li>
-}
+)
 
 class App extends React.Component{
     constructor()
@@ -52,10 +52,9 @@ class App extends React.Component{
     {
       return (
         <div>
-          <button onClick={this.addTodo}>Add TODO</button>
-
+          <button onClick={() => this.addTodo()}>Add TODO</button>
           <ul>
-            {this.state.todos.map( todo => <Todo todo = {todo} />)}
+            {this.state.todos.map( todo => <Todo todo = {todo} onDelete = {() => this.removeTodo(todo.id)} key = {todo.id} />)}
           </ul>
         </div>
       );
