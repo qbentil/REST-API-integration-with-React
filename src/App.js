@@ -9,8 +9,8 @@ let id = 0;
 const Todo = props => (
   <li>
     <input type="checkbox" checked = {props.todo.checked}  onChange={props.onToggle}/>
-    <span>{props.todo.text}</span>
     <button  title = "Delete" onClick = { props.onDelete}>Delete</button>
+    <span>{props.todo.text}</span>
   </li>
 )
 
@@ -27,11 +27,14 @@ class App extends React.Component{
     addTodo()
     {
       const text = prompt("TODO text please....");
-      this.setState({
-        todos: [
-          ...this.state.todos, { id: id++, text: text, checked: false }
-        ]
-      });
+      if(text !== "")
+      {
+        this.setState({
+          todos: [
+            ...this.state.todos, { id: id++, text: text, checked: false }
+          ]
+        });
+      }
     }
 
     // remove TODO
