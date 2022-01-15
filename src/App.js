@@ -7,11 +7,11 @@ import React from 'react'
 let id = 0;
 
 const Todo = props => (
-  <li>
-    <input type="checkbox" checked = {props.todo.checked}  onChange={props.onToggle}/>
-    <button  title = "Delete" onClick = { props.onDelete}>Delete</button>
-    <span>{props.todo.text}</span>
-  </li>
+    <div className = {props.todo.checked? "todo completed": "todo"}>
+        <li className = "todo-item"> {props.todo.text}</li>
+        <button className='completed-btn' onClick={props.onToggle}><i className = "fas fa-check"> </i></button>
+        <button  title = "Delete" onClick = { props.onDelete} className='trash-btn'><i className = "fas fa-trash"> </i></button>
+    </div>
 )
 
 class App extends React.Component{
@@ -20,21 +20,27 @@ class App extends React.Component{
       super();
       this.state = {
         todos: [],
+        text: '',
       };
     }
 
     // add TODO
     addTodo()
     {
-      const text = prompt("TODO text please....");
-      if(text !== "")
+
+      if(this.state.text !== "")
       {
         this.setState({
           todos: [
-            ...this.state.todos, { id: id++, text: text, checked: false }
-          ]
+            ...this.state.todos, { id: id++, text: this.state.text, checked: false }
+          ],
+          text: ''
         });
+
+        
       }
+
+      
     }
 
     // remove TODO
@@ -61,19 +67,40 @@ class App extends React.Component{
     {
       return (
         <div>
-          <div>TODO Count: {this.state.todos.length}</div>
-          <div>Unchecked TODO Count: {this.state.todos.filter(todo => !todo.checked).length}</div>
-          <button onClick={() => this.addTodo()}>Add TODO</button>
-          <ul>
-            {this.state.todos.map( todo => (
-               <Todo
-                todo = {todo}
-                onDelete = {() => this.removeTodo(todo.id)} 
-                onToggle = {() => this.toggleTodoState(todo.id)}
-                key = {todo.id} 
-               />
-            ))}
-          </ul>
+            <header>
+                <h1>Bentil's To Do List</h1>
+            </header>
+
+            <div className='form'>
+                <input 
+                    type="text" 
+                    name = "text" 
+                    class="todo-input" 
+                    value = {this.state.text}
+                    onChange = {(text) => this.setState({[text.target.name]: text.target.value})}
+                />
+                <button class="todo-button" onClick={() => this.addTodo()}>
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </div>
+
+            <div class="filter">
+                <button class="filter-all">ALL: {this.state.todos.length}</button>
+                <button class="filter-completed" >COMPLETED: {this.state.todos.filter(todo => todo.checked).length}</button>
+                <button class="filter-pending" >PENDING: {this.state.todos.filter(todo => !todo.checked).length}</button>
+            </div>
+            <div className = "todo-container">
+                <ul className="todo-list">
+                    {this.state.todos.map( todo => (
+                    <Todo
+                        todo = {todo}
+                        onDelete = {() => this.removeTodo(todo.id)} 
+                        onToggle = {() => this.toggleTodoState(todo.id)}
+                        key = {todo.id} 
+                    />
+                    ))}
+                </ul>
+            </div>
         </div>
       );
     }
