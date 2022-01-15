@@ -15,14 +15,14 @@ header {
   font-size: 1.5rem;
 }
 
-header, form {
+header, .form {
   min-height: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-form input, form button {
+.form input, .form button {
   padding: 0.5rem;
   font-size: 2rem;
   border: none;
@@ -30,14 +30,14 @@ form input, form button {
   outline: none;
 }
 
-form button {
+.form button {
   color: #ee8467;
   background: white;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-form button:hover{
+.form button:hover{
   background: #ee8467;
   color: white;
 }
@@ -97,7 +97,7 @@ form button:hover{
 }
 
 .fall {
-  transform: translateY(8rem) rotateZ(20deg);
+  trans.: translateY(8rem) rotateZ(20deg);
   opacity: 0;
 }
 
