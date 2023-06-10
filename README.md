@@ -1,7 +1,7 @@
 ## Exploring REST API integration with React
 
 This is a simple TODO app that uses REST API to perform CRUD operations.
-It is the base App for the [Exploring REST API integration with React]() workshop.
+It is the base App for the [Exploring REST API integration with React](https://bit.ly/ugmlsa-meetup02) workshop.
 
 ## API Links
 - Repository: [Here✔](https://github.com/qbentil/qbentil-mlsa-build-rest-api-workshop)
