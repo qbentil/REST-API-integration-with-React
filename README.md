@@ -9,7 +9,7 @@ It is the base App for the [Exploring REST API integration with React](https://b
 
 
 ## Features
-- [] Add Task
+- [ ] Add Task
 - [ ] Mark task as pending/ completed
 - [ ] Delete Task
 
