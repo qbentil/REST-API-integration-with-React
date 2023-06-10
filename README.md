@@ -18,4 +18,4 @@ It is the base App for the [Exploring REST API integration with React](https://b
 
 ## UI Update
 Design beautifully updated. 
-App.css is a copy of [@neophyte-programmer] TODO app CSS🥰🥰
+App.css is a copy of [@neophyte-programmer](https://github.com/neophyte-programmer) TODO app CSS🥰🥰
