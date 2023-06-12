@@ -1,109 +1,99 @@
-import './App.css'
+import "./App.css";
 
-import React from 'react'
-
-// import {render} from 'react-dom'
+import React, { useState } from "react";
 
 let id = 0;
-
-const Todo = props => (
-    <div className = {props.todo.checked? "todo completed": "todo"}>
-        <li className = "todo-item"> {props.todo.text}</li>
-        <button className='completed-btn' onClick={props.onToggle}><i className = "fas fa-check"> </i></button>
-        <button  title = "Delete" onClick = { props.onDelete} className='trash-btn'><i className = "fas fa-trash"> </i></button>
+const Todo = (props) => {
+  const { todo, onDelete, onToggle } = props;
+  return (
+    <div className={todo.checked ? "todo completed" : "todo"}>
+      <li className="todo-item"> {todo.text}</li>
+      <button className="completed-btn" onClick={onToggle}>
+        <i className="fas fa-check"> </i>
+      </button>
+      <button title="Delete" onClick={onDelete} className="trash-btn">
+        <i className="fas fa-trash"> </i>
+      </button>
     </div>
-)
+  );
+};
 
-class App extends React.Component{
-    constructor()
-    {
-      super();
-      this.state = {
-        todos: [],
-        text: '',
-      };
+const App = () => {
+  const [todos, setTodos] = useState([]);
+  const [text, setText] = useState("");
+
+  // add TODO
+  const addTodo = (e) => {
+    e.preventDefault();
+
+    // check if todo exist
+    const todoExist = todos.find((todo) => todo.text === text);
+    
+
+    if (text !== "" && !todoExist) {
+      setTodos([...todos, { id: id++, text: text, checked: false }]); // add todo
+      setText(""); // clear input
     }
+  };
 
-    // add TODO
-    addTodo()
-    {
-
-      if(this.state.text !== "")
-      {
-        this.setState({
-          todos: [
-            ...this.state.todos, { id: id++, text: this.state.text, checked: false }
-          ],
-          text: ''
-        });
-
-        
-      }
-
-      
-    }
-
-    // remove TODO
-    removeTodo(id){
-      this.setState({
-        todos: this.state.todos.filter(todo => todo.id !== id)
-      });
-    }
-    // Handle checked todo
-    toggleTodoState(id)
-    {
-      this.setState({
-        todos: this.state.todos.map(todo => {
-          if (todo.id !== id) return todo;
-          return {
-            id: todo.id,
-            text: todo.text,
-            checked: !todo.checked,
-          };
-        })
+  // remove TODO
+  const removeTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+  // Handle checked todo
+  const toggleTodoState = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          todo.checked = !todo.checked;
+        }
+        return todo;
       })
-    }
-    render()
-    {
-      return (
-        <div>
-            <header>
-                <h1>Bentil's To Do List</h1>
-            </header>
+    );
+  };
 
-            <div className='form'>
-                <input 
-                    type="text" 
-                    name = "text" 
-                    class="todo-input" 
-                    value = {this.state.text}
-                    onChange = {(text) => this.setState({[text.target.name]: text.target.value})}
-                />
-                <button class="todo-button" onClick={() => this.addTodo()}>
-                    <i class="fas fa-plus-square"></i>
-                </button>
-            </div>
+  return (
+    <div>
+      <header>
+        <h1>TODO List</h1>
+      </header>
 
-            <div class="filter">
-                <button class="filter-all">ALL: {this.state.todos.length}</button>
-                <button class="filter-completed" >COMPLETED: {this.state.todos.filter(todo => todo.checked).length}</button>
-                <button class="filter-pending" >PENDING: {this.state.todos.filter(todo => !todo.checked).length}</button>
-            </div>
-            <div className = "todo-container">
-                <ul className="todo-list">
-                    {this.state.todos.map( todo => (
-                    <Todo
-                        todo = {todo}
-                        onDelete = {() => this.removeTodo(todo.id)} 
-                        onToggle = {() => this.toggleTodoState(todo.id)}
-                        key = {todo.id} 
-                    />
-                    ))}
-                </ul>
-            </div>
-        </div>
-      );
-    }
-}
+      <form method="POST" className="form" onSubmit={addTodo} >
+        <input
+          type="text"
+          name="text"
+          class="todo-input"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button class="todo-button" onClick={addTodo}>
+          <i class="fas fa-plus-square"></i>
+        </button>
+      </form>
+
+      <div class="filter">
+        <button class="filter-all">ALL: {todos.length}</button>
+        <button class="filter-completed">
+          COMPLETED: {todos.filter((todo) => todo.checked).length}
+        </button>
+        <button class="filter-pending">
+          PENDING: {todos.filter((todo) => !todo.checked).length}
+        </button>
+      </div>
+      <div className="todo-container">
+        <ul className="todo-list">
+          {todos.map((todo) => (
+            <Todo
+              todo={todo}
+              onDelete={() => removeTodo(todo.id)}
+              onToggle={() => toggleTodoState(todo.id)}
+              key={todo.id}
+            />
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
 export default App;
