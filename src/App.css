@@ -18,16 +18,24 @@ header {
 header, .form {
   min-height: 20vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+margin-bottom: 15px;
 }
 
-.form input, .form button {
+.form input, .form textarea {
+  border-radius: 5px;
+  border-bottom: 1px solid #ff6f47;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
   padding: 0.5rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   border: none;
   background: white;
   outline: none;
+  width: 50%;
 }
 
 .form button {
@@ -35,6 +43,11 @@ header, .form {
   background: white;
   cursor: pointer;
   transition: all 0.3s ease;
+  padding: 0.5rem;
+  font-size: 2rem;
+  border: none;
+  outline: none;
+  width: 20%;
 }
 
 .form button:hover{
@@ -97,7 +110,7 @@ header, .form {
 }
 
 .fall {
-  trans.: translateY(8rem) rotateZ(20deg);
+  transition: translateY(8rem) rotateZ(20deg);
   opacity: 0;
 }
 

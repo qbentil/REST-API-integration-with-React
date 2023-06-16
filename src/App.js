@@ -21,6 +21,7 @@ const Todo = (props) => {
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
+  const [desc, setDesc] = useState("");
 
   // add TODO
   const addTodo = (e) => {
@@ -28,11 +29,11 @@ const App = () => {
 
     // check if todo exist
     const todoExist = todos.find((todo) => todo.text === text);
-    
 
     if (text !== "" && !todoExist) {
-      setTodos([...todos, { id: id++, text: text, checked: false }]); // add todo
+      setTodos([...todos, { id: id++, text: text, desc: desc, checked: false }]); // add todo
       setText(""); // clear input
+      setDesc(""); // clear input
     }
   };
 
@@ -58,16 +59,24 @@ const App = () => {
         <h1>TODO List</h1>
       </header>
 
-      <form method="POST" className="form" onSubmit={addTodo} >
+      <form method="POST" className="form" onSubmit={addTodo}>
         <input
           type="text"
           name="text"
           class="todo-input"
           value={text}
+          placeholder="TODO Text"
           onChange={(e) => setText(e.target.value)}
         />
+        <textarea
+          value={desc}
+          class="todo-input"
+          name="text"
+          placeholder="TODO Description"
+          onChange={(e) => setDesc(e.target.value)}
+        />
         <button class="todo-button" onClick={addTodo}>
-          <i class="fas fa-plus-square"></i>
+          <i class="fas fa-plus-square" /> ADD
         </button>
       </form>
 
