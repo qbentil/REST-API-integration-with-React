@@ -1,13 +1,14 @@
 import "./App.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FETCH_TODOS, ADD_TODO, TOGGLE_TODO } from "./utils";
 
 let id = 0;
 const Todo = (props) => {
   const { todo, onDelete, onToggle } = props;
   return (
     <div className={todo.checked ? "todo completed" : "todo"}>
-      <li className="todo-item"> {todo.text}</li>
+      <li className="todo-item"> {todo.title}</li>
       <button className="completed-btn" onClick={onToggle}>
         <i className="fas fa-check"> </i>
       </button>
@@ -23,6 +24,13 @@ const App = () => {
   const [text, setText] = useState("");
   const [desc, setDesc] = useState("");
 
+
+  useEffect(() => {
+      FETCH_TODOS((data) => {
+        setTodos(data.data)
+      })      
+  }, []);
+
   // add TODO
   const addTodo = (e) => {
     e.preventDefault();
@@ -31,9 +39,17 @@ const App = () => {
     const todoExist = todos.find((todo) => todo.text === text);
 
     if (text !== "" && !todoExist) {
-      setTodos([...todos, { id: id++, text: text, desc: desc, checked: false }]); // add todo
-      setText(""); // clear input
-      setDesc(""); // clear input
+      const item = {
+        title: text,
+        description: desc,
+        checked: false
+      }
+
+      ADD_TODO(item, (data) => {
+        setTodos([...todos, data.data]); // add todo
+        setText(""); // clear input
+        setDesc(""); // clear input
+      })
     }
   };
 
@@ -42,15 +58,17 @@ const App = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
   // Handle checked todo
-  const toggleTodoState = (id) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          todo.checked = !todo.checked;
-        }
-        return todo;
-      })
-    );
+  const toggleTodoState = (todo) => {
+    TOGGLE_TODO(todo, (data) => {
+      setTodos(
+        todos.map((item) => {
+          if (item._id === data._id) {
+            item.checked = data.checked;
+          }
+          return item;
+        })
+      );
+    })
   };
 
   return (
@@ -63,29 +81,29 @@ const App = () => {
         <input
           type="text"
           name="text"
-          class="todo-input"
+          className="todo-input"
           value={text}
           placeholder="TODO Text"
           onChange={(e) => setText(e.target.value)}
         />
         <textarea
           value={desc}
-          class="todo-input"
+          className="todo-input"
           name="text"
           placeholder="TODO Description"
           onChange={(e) => setDesc(e.target.value)}
         />
-        <button class="todo-button" onClick={addTodo}>
-          <i class="fas fa-plus-square" /> ADD
+        <button className="todo-button" onClick={addTodo}>
+          <i className="fas fa-plus-square" /> ADD
         </button>
       </form>
 
-      <div class="filter">
-        <button class="filter-all">ALL: {todos.length}</button>
-        <button class="filter-completed">
+      <div className="filter">
+        <button className="filter-all">ALL: {todos.length}</button>
+        <button className="filter-completed">
           COMPLETED: {todos.filter((todo) => todo.checked).length}
         </button>
-        <button class="filter-pending">
+        <button className="filter-pending">
           PENDING: {todos.filter((todo) => !todo.checked).length}
         </button>
       </div>
@@ -94,9 +112,9 @@ const App = () => {
           {todos.map((todo) => (
             <Todo
               todo={todo}
-              onDelete={() => removeTodo(todo.id)}
-              onToggle={() => toggleTodoState(todo.id)}
-              key={todo.id}
+              onDelete={() => removeTodo(todo._id)}
+              onToggle={() => toggleTodoState(todo)}
+              key={todo._id}
             />
           ))}
         </ul>
